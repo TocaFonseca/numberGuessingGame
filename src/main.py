@@ -1,29 +1,49 @@
 import random
 import time
+import os
 
-def welcome():
+def clear(): os.system('clear')
 
-    print("\n\n\n\n\nWelcome to the Number Guessing Game!")
+def any_key():
+
+    print("\n(press any key to continue)")
+    input()
+
+def welcome(tries, high):
+
+    clear()
+    print("Welcome to the Number Guessing Game!")
     print("I'm thinking of a number between 1 and 100.")
-    print("You have 5 chances to guess the correct number.")
+    print("You have " + str(tries) + " chances to guess the correct number.")
+    if high > 0: print("\nCurrent high score: " + str(high) + " guesses")
+    any_key()
     
 
-def select_difficulty():
+def select_difficulty(high):
 
-    print("\nPlease select the difficulty level:")
+    clear()
+    print("Please select the difficulty level:")
     print("\t1. Easy (10 chances)")
     print("\t2. Medium (5 chances)")
     print("\t3. Hard (3 chances)")
 
+    print("\nIf you wish to exit the game please enter 0")
+
+    if high > 0: print("Current high score: " + str(high) + " guesses")
+
     dif = int(input("\nEnter your choice: "))
 
-    while dif not in [1, 2, 3]:
+    while dif not in [0, 1, 2, 3]:
         dif = int(input(("Please enter a valid difficulty level: ")))
 
-    dif_extended = get_extended_difficulty(dif)
+    if dif != 0:
 
-    print("\nGreat! You have selected the " + dif_extended + " difficulty level.")
-    print("Let's start the game!")
+        clear()
+        dif_extended = get_extended_difficulty(dif)
+        print("\nGreat! You have selected the " + dif_extended + " difficulty level.")
+        print("Let's start the game!")
+        any_key()
+        
 
     return dif
 
@@ -39,15 +59,19 @@ def get_number_tries(dif):
     elif dif == 2: return 5
     else: return 3
 
-def game(dif, num):
+def game(dif, num, high):
 
     tries = get_number_tries(dif)
     win = False
+    score = -1
+
+    welcome(tries, high)
 
     time_init = time.time()
 
     for i in range(tries):
 
+        clear()
         guess = int(input("\nEnter your guess: "))
 
         if guess < num: print("Incorrect! The number is greater than " + str(guess) + ".")
@@ -57,19 +81,36 @@ def game(dif, num):
             duration = time_end-time_init
 
             print("Congratulations! You guessed the correct number in " + str(i+1) + " attempts during a total of " + str(int(duration)) + " seconds.")
+            any_key()
             win = True
+            score = i+1
             break
 
+        any_key()
+
     if not win:
+        clear()
         print("\nSorry, you have run out of guesses...")
         print("The correct number was " + str(guess) + "...")
         print("\nBetter luck next time!")
+        any_key()
+
+    return score
 
 if __name__ == "__main__":
 
-    welcome()
-    difficulty = select_difficulty()
+    high = -1
+    difficulty = select_difficulty(high)
 
-    correct_number = random.randint(1, 100)
+    while difficulty != 0:
+
+        correct_number = random.randint(1, 100)
     
-    game(difficulty, correct_number)
+        score = game(difficulty, correct_number, high)
+
+        if (score > 0 and high == -1) or (score < high and score > 0):
+            high = score
+
+        difficulty = select_difficulty(high)
+
+    print("\nYou have decided to exit the game.\nSee you next time!\n\n")
