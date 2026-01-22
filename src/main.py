@@ -31,10 +31,17 @@ def select_difficulty(high):
 
     if high > 0: print("Current high score: " + str(high) + " guesses")
 
-    dif = int(input("\nEnter your choice: "))
+    while True: # guarantees repetition
 
-    while dif not in [0, 1, 2, 3]:
-        dif = int(input(("Please enter a valid difficulty level: ")))
+        try:
+            dif = int(input("\nEnter your choice: "))
+
+            if dif in [0, 1, 2, 3]:
+                break
+
+            print("Please enter a valid difficulty level (1, 2 or 3) or 0 to exit.")
+
+        except ValueError: print("Please enter a valid number.")
 
     if dif != 0:
 
@@ -72,7 +79,14 @@ def game(dif, num, high):
     for i in range(tries):
 
         clear()
-        guess = int(input("\nEnter your guess: "))
+
+        while True: # guarantees repetition
+
+            try:
+                guess = int(input("\nEnter your guess: "))
+
+            except ValueError: print("Please enter a valid number.")
+            else: break
 
         if guess < num: print("Incorrect! The number is greater than " + str(guess) + ".")
         elif guess > num: print("Incorrect! The number is less than " + str(guess) + ".")
@@ -91,7 +105,7 @@ def game(dif, num, high):
     if not win:
         clear()
         print("\nSorry, you have run out of guesses...")
-        print("The correct number was " + str(guess) + "...")
+        print("The correct number was " + str(num) + "...")
         print("\nBetter luck next time!")
         any_key()
 

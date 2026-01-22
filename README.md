@@ -18,9 +18,9 @@ It is a CLI-based game, so you need to use the command line to interact with the
 To make the game more interesting, you can add the following features:
 - [x] Allow the user to play multiple rounds of the game (i.e., keep playing until the user decides to quit). You can do this by asking the user if they want to play again after each round.
 - [x] Add a timer to see how long it takes the user to guess the number.
-- [ ] Implement a hint system that provides clues to the user if they are stuck.
+- [x] Implement a hint system that provides clues to the user if they are stuck.
 - [x] Keep track of the user's high score (i.e., the fewest number of attempts it took to guess the number under a specific difficulty level).
 
 ## Other to-dos
-- [ ] Validate each guess input to make sure is a int
-- [ ] When expecting an int and receives only an Enter it throws an Exception
+- [x] Validate each guess input to make sure is a int
+- [x] When expecting an int and receives only an Enter it throws an Exception
